@@ -610,6 +610,17 @@ void init_usb_driver(USBDriver *usbp) {
     chVTObjectInit(&keyboard_idle_timer);
 }
 
+/*
+ * Reinit the USB driver on wake
+ */
+void restart_driver(USBDriver *usbp) {
+    usbStop(usbp);
+    usbDisconnectBus(usbp);
+    wait_ms(1500);
+    usbStart(usbp, &usbcfg);
+    usbConnectBus(usbp);
+}
+
 /* ---------------------------------------------------------
  *                  Keyboard functions
  * ---------------------------------------------------------
